@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="August 15, 2018" />
+  <title>Parallel MATLAB workshop: Savio-specific notes</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Parallel MATLAB workshop: Savio-specific notes</h1>
+  <p class="author">
+August 15, 2018
+  </p>
+  <p class="date">Chris Paciorek</p>
+</div>
+<div id="outline" class="slide section level1">
+<h1>Outline</h1>
+<p>Berkeley Research IT helps researchers through its Berkeley Research Computing (BRC) and Research Data Management (RDM) programs.</p>
+<p>This document contains information on:</p>
+<ul>
+<li>Savio campus cluster
+<ul>
+<li>Getting access to the system - faculty computing allowance, condo</li>
+<li>Savio computing nodes</li>
+<li>Cluster job submission/scheduling</li>
+<li>MATLAB usage on Savio</li>
+</ul></li>
+<li>Disk storage at Berkeley
+<ul>
+<li>Where can I put my stuff</li>
+<li>Data transfer</li>
+</ul></li>
+<li>How to get help</li>
+</ul>
+</div>
+<div id="system-capabilities-and-hardware" class="slide section level1">
+<h1>System capabilities and hardware</h1>
+<p>Berkeley Research Computing runs the campus cluster, Savio.</p>
+<ul>
+<li>Savio is a &gt;380-node, &gt;8000-core, &gt;169000-gpu-core Linux cluster rated at &gt;350 peak teraFLOPS.
+<ul>
+<li>about 174 compute nodes provided by the UC Berkeley for general access</li>
+<li>about 211 compute nodes contributed by researchers in the Condo program</li>
+</ul></li>
+</ul>
+</div>
+<div id="getting-access-to-the-system---fca-and-condo" class="slide section level1">
+<h1>Getting access to the system - FCA and condo</h1>
+<ul>
+<li>All regular Berkeley faculty can request 300,000 service units (roughly core-hours) per year through the <a href="http://research-it.berkeley.edu/services/high-performance-computing/faculty-computing-allowance">Faculty Computing Allowance (FCA)</a></li>
+<li>Researchers can also purchase nodes for their own priority access and gain access to the shared Savio infrastructure and to the ability to <em>burst</em> to additional nodes through the <a href="http://research-it.berkeley.edu/services/high-performance-computing/condo-cluster-program">condo cluster program</a></li>
+<li>Instructors can request an <a href="http://research-it.berkeley.edu/programs/berkeley-research-computing/instructional-computing-allowance">Instructional Computing Allowance (ICA)</a>.</li>
+</ul>
+<p>Faculty/principal investigators can allow researchers working with them to get user accounts with access to the FCA or condo resources available to the faculty member.</p>
+</div>
+<div id="savio-computing-nodes" class="slide section level1">
+<h1>Savio computing nodes</h1>
+<p><a href="https://research-it.berkeley.edu/services/high-performance-computing">Savio</a> provides access to the following types of computational resources:</p>
+<ul>
+<li>full 20/24/28 core nodes scheduled per-node</li>
+<li>'htc' nodes scheduled per-core</li>
+<li>GPU nodes (scheduled per GPU)</li>
+<li>big-memory nodes (scheduled per node)</li>
+<li>Jupyter notebooks</li>
+<li>a visualization/remote desktop node</li>
+</ul>
+<p>Let's take a look at the hardware specifications of the computing nodes on the cluster <a href="https://research-it.berkeley.edu/services/high-performance-computing/user-guide/savio-user-guide">(see the <em>Hardware Configuration</em> section of this document)</a>.</p>
+<p>The nodes are divided into several pools, called partitions. These partitions have different restrictions and costs associated with them <a href="https://research-it.berkeley.edu/services/high-performance-computing/user-guide/savio-user-guide">(see the <em>Scheduler Configuration</em> section of this document)</a>. Any job you submit must be submitted to a partition to which you have access.</p>
+</div>
+<div id="submitting-jobs-accounts-and-partitions" class="slide section level1">
+<h1>Submitting jobs: accounts and partitions</h1>
+<p>All computations are done by submitting jobs to the scheduling software that manages jobs on the cluster, called SLURM.</p>
+<ul>
+<li>interactive jobs</li>
+<li>batch/background jobs</li>
+</ul>
+<p>Here's an example job script for a batch job. You'll need to modify the various &quot;--&quot; flags for your own work.</p>
+<pre><code>#!/bin/bash
+# Job name:
+#SBATCH --job-name=test
+#
+# Account:
+#SBATCH --account=fc_paciorek
+#
+# Partition:
+#SBATCH --partition=savio2
+#
+# Number of tasks
+#SBATCH --ntasks=1
+#
+# Number of cores per task
+#SBATCH --cpus-per-task=24
+#
+# Wall clock limit (30 minutes here):
+#SBATCH --time=00:30:00
+#
+## Command(s) to run:
+module load matlab
+matlab &lt; run.m &gt; output.txt</code></pre>
+<p>Note that you'll be charged for a full node (except in the savio2_htc and savio2_gpu partitions), so ideally your MATLAB code should make use of the 24 cores on Savio2 node in this case.</p>
+</div>
+<div id="using-matlab-on-savio" class="slide section level1">
+<h1>Using MATLAB on Savio</h1>
+<p>You need to show that you have a MATLAB license in order to use MATLAB on Savio.</p>
+<p>For more details on showing you have a license and using MATLAB on Savio, see <a href="http://research-it.berkeley.edu/services/high-performance-computing/using-matlab-savio">here</a>.</p>
+<p>One key difference from using MATLAB on your laptop is that you need to make sure that the number of cores you request from SLURM in your job script aligns with the number of cores that MATLAB will use.</p>
+</div>
+<div id="using-matlab-dcs-on-savio" class="slide section level1">
+<h1>Using MATLAB DCS on Savio</h1>
+<p>MATLAB DCS allows one to use computational resources across multiple nodes. You can use up to 32 workers (based on our current DCS license) and one or more cores per worker.</p>
+<p>Details are <a href="http://research-it.berkeley.edu/services/high-performance-computing/using-matlab-savio/running-matlab-jobs-across-multiple-savio">here</a>.</p>
+<p>Key items to remember:</p>
+<ul>
+<li>run <code>configCluster</code> in MATLAB once in your account</li>
+<li>request as many MATLAB licenses as MATLAB workers you will use, e.g.,
+<ul>
+<li><code>#SBATCH --licenses=mdcs:28</code></li>
+</ul></li>
+<li>in each MATLAB DCS cluster job, do:
+<ul>
+<li><code>module load matlab</code></li>
+<li><code>export MDCE_OVERRIDE_EXTERNAL_HOSTNAME=$(/bin/hostname -f)</code></li>
+</ul></li>
+<li>use the &quot;savio&quot; MATLAB parallel cluster profile</li>
+</ul>
+<p>Please see the <a href="matlab_sbatch_template.sh">example sbatch submission script</a> and <a href="example_parpool.m">example MATLAB parallel script</a>.</p>
+</div>
+<div id="disk-space-options-on-savio-and-on-campus-broadly" class="slide section level1">
+<h1>Disk space options on Savio and on campus broadly</h1>
+<p>Here are some options for moderate-large disk storage options:</p>
+<ul>
+<li>Savio project storage: 200 GB, backed up</li>
+<li>Savio scratch: 1.5 PB shared across all users, not backed up, subject to removal</li>
+<li>Savio condo (purchase) storage: roughly $6000 per 42 TB</li>
+<li>Berkeley Box: unlimited, 15 GB file size limit</li>
+<li>bDrive (Berkeley Google drive): unlimited</li>
+</ul>
+<p>More details on Savio storage are here <a href="https://research-it.berkeley.edu/services/high-performance-computing/user-guide/savio-user-guide">here in the <em>Storage and Backup</em> section</a>.</p>
+</div>
+<div id="data-transfer-for-large-data" class="slide section level1">
+<h1>Data transfer for large data</h1>
+<p>Some options include:</p>
+<ul>
+<li><a href="https://research-it.berkeley.edu/services/high-performance-computing/using-globus-connect-savio">Globus</a> (to/from Savio, laptop, XSEDE)</li>
+<li><a href="https://research-it.berkeley.edu/services/research-data-management-service/take-advantage-unlimited-bdrive-storage-using-rclone">rclone</a> (to/from bDrive and Berkeley Box)</li>
+</ul>
+</div>
+<div id="how-to-get-additional-help" class="slide section level1">
+<h1>How to get additional help</h1>
+<ul>
+<li>For technical issues and questions about using Savio:
+<ul>
+<li>brc-hpc-help@berkeley.edu</li>
+</ul></li>
+<li>For questions about computing resources in general, including cloud computing:
+<ul>
+<li>brc@berkeley.edu or research-it-consulting@berkeley.edu</li>
+</ul></li>
+<li>For questions about data management (including HIPAA-protected data):
+<ul>
+<li>researchdata@berkeley.edu or research-it-consulting@berkeley.edu</li>
+</ul></li>
+<li>Office hours for any of the above topics:
+<ul>
+<li>Tues. 10-12, Wed. 1:30-3, Thur. 9:30-11:30 in AIS (Dwinelle 117)</li>
+</ul></li>
+</ul>
+<p>Don't hesitate to contact us; we're friendly, even with basic questions.</p>
+</div>
+<div id="upcoming-events" class="slide section level1">
+<h1>Upcoming events</h1>
+<ul>
+<li>Savio intro workshop Thursday September 17</li>
+<li>Other trainings planned for the fall</li>
+</ul>
+</div>
+</body>
+</html>
