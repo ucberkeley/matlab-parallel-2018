@@ -99,7 +99,7 @@ One key difference from using MATLAB on your laptop is that you need to make sur
 
 # Using MATLAB DCS on Savio
 
-MATLAB DCS allows one to use computational resources across multiple nodes. You can use up to 32 workers (based on our current DCS license) and one or more cores per worker.
+MATLAB DCS allows one to use computational resources across multiple nodes. You can use up to 32 workers (based on our current DCS license) and one or more cores per worker. (Note that the 32 workers are shared across all Savio users at any given time.)
 
 Details are [here](http://research-it.berkeley.edu/services/high-performance-computing/using-matlab-savio/running-matlab-jobs-across-multiple-savio).
 
