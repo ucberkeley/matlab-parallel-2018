@@ -56,8 +56,9 @@ The nodes are divided into several pools, called partitions. These partitions ha
 
 All computations are done by submitting jobs to the scheduling software that manages jobs on the cluster, called SLURM.
 
- - interactive jobs
- - batch/background jobs
+ - interactive jobs (via srun)
+ - interactive jobs (with faster visualization capabilities via [Savio viz node](http://research-it.berkeley.edu/services/high-performance-computing/using-brc-visualization-node-realvnc)) 
+ - batch/background jobs (via sbatch)
 
 Here's an example job script for a batch job. You'll need to modify the various "--" flags for your own work.
 

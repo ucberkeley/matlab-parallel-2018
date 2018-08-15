@@ -63,8 +63,9 @@
 <h1 id="submitting-jobs-accounts-and-partitions">Submitting jobs: accounts and partitions</h1>
 <p>All computations are done by submitting jobs to the scheduling software that manages jobs on the cluster, called SLURM.</p>
 <ul>
-<li>interactive jobs</li>
-<li>batch/background jobs</li>
+<li>interactive jobs (via srun)</li>
+<li>interactive jobs (with faster visualization capabilities via <a href="http://research-it.berkeley.edu/services/high-performance-computing/using-brc-visualization-node-realvnc">Savio viz node</a>)</li>
+<li>batch/background jobs (via sbatch)</li>
 </ul>
 <p>Here's an example job script for a batch job. You'll need to modify the various &quot;--&quot; flags for your own work.</p>
 <pre><code>#!/bin/bash
